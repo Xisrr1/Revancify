@@ -14,8 +14,14 @@ fetchAssetsInfo() {
 
         notify info "Fetching Assets Info..."
 
-        if ! "${CURL[@]}" "https://api.github.com/repos/ReVanced/revanced-cli/releases/latest" |
-            jq -r '
+        if [ "$USE_PRE_RELEASE" == "on" ]; then
+			    CLI_API_URL="https://api.github.com/repos/ReVanced/revanced-cli/releases"
+		    else
+			    CLI_API_URL="https://api.github.com/repos/ReVanced/revanced-cli/releases/latest"
+		    fi
+  
+		    if ! "${CURL[@]}" "$CLI_API_URL" | jq -r '
+                    if type == "array" then .[0] else . end |
                 "CLI_VERSION='\''\(.tag_name)'\''",
                 (
                     .assets[] |
@@ -27,14 +33,62 @@ fetchAssetsInfo() {
                     end
                 )
             ' > assets/.data 2> /dev/null; then
-            notify msg "Unable to fetch latest CLI info from API!!\nRetry later."
-            return 1
+			      notify msg "Unable to fetch latest CLI info from API!!\nRetry later."
+			      return 1
+		    fi
+    
+    if [ "$USE_PRE_RELEASE" == "on" ]; then
+
+            jq '
+
+                (.[]
+
+                | select(.source == "Anddea")
+
+                | .api.json) |= sub("main"; "dev")
+
+            ' sources.json > sources_tmp.json && mv sources_tmp.json sources.json
+     else
+            jq '
+
+                (.[]
+
+                | select(.source == "Anddea")
+
+                | .api.json) |= sub("dev"; "main")
+
+            ' sources.json > sources_tmp.json && mv sources_tmp.json sources.json
+      fi
+
+        
+
+      if [ "$USE_PRE_RELEASE" == "on" ]; then
+            jq '
+
+                (.[]
+
+                | select(.source == "ReVanced-Extended")
+
+                | .api.json) |= sub("revanced-extended"; "dev")
+
+            ' sources.json > sources_tmp.json && mv sources_tmp.json sources.json
+       else
+            jq '
+
+                (.[]
+
+                | select(.source == "ReVanced-Extended")
+
+                | .api.json) |= sub("dev"; "revanced-extended")
+
+            ' sources.json > sources_tmp.json && mv sources_tmp.json sources.json
         fi
 
-        source <(
-            jq -r --arg SOURCE "$SOURCE" '
-                .[] | select(.source == $SOURCE) |
-                "REPO=\(.repository)",
+
+		source <(
+			  jq -r --arg SOURCE "$SOURCE" '
+            .[] | select(.source == $SOURCE) |
+            "REPO=\(.repository)",
                 (
                     .api // empty |
                     (
@@ -53,7 +107,11 @@ fetchAssetsInfo() {
                 return 1
             fi
         else
+          if [ "$USE_PRE_RELEASE" == "on" ]; then
+            PATCHES_API_URL="https://api.github.com/repos/$REPO/releases"
+          else 
             PATCHES_API_URL="https://api.github.com/repos/$REPO/releases/latest"
+          fi
         fi
 
         if ! "${CURL[@]}" "$PATCHES_API_URL" |
