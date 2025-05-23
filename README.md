@@ -16,11 +16,13 @@
 </table>
 
 
+# Revancify Xisr Features
+1. Supports Pre-released patches
+
 # Features
 1. Auto fetches Patches and CLI
 2. Interactive and Easy to use
 3. Support APK download from ApkMirror or Importing from storage
-4. Supports Pre-releases
 4. User-friendly Patch-options Editor
 5. Convenient Installation and usage
 6. Lightweight and faster than any other tool
