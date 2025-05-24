@@ -18,6 +18,7 @@
 
 # Revancify Xisr Features
 1. Supports Pre-released patches
+2. Auto launches after updates
 
 # Revancify Features
 1. Auto fetches Patches and CLI
