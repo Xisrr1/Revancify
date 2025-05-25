@@ -155,7 +155,6 @@ fi
         rm -rf Revancify-* &> /dev/null
         cp -f "$SRC/revancify" "$PREFIX/bin/revancify"
         chmod +x "$PREFIX/bin/revancify"
-        echo -e "Revancify $TAG is now installed.\nRun 'revancify -h' for help."
     else
         echo -e "Unable to install Revancify $TAG !!\nPlease try again with proper Internet"
         exit 1

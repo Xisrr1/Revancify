@@ -22,7 +22,7 @@ setEnv() {
 }
 
 notify() {
-	  dialog --backtitle 'Revancify 𝕏isr' --"$1"box "$2" 12 45
+	  dialog --no-collapse --backtitle $'Revancify 𝕏isr\t'"${VERSION_STABLE:-unknown}" --"$1"box "$2" 12 45
 }
 
 internet() {
