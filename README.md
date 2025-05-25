@@ -1,4 +1,4 @@
-# Revancify Xisr 🛠️
+# Revancify 𝕏isr 🛠️
 ### A TUI wrapper for Revanced CLI with amazing features.
 
 [![TelegramChannel](https://img.shields.io/badge/Telegram_Support_Chat-2CA5E0?style=for-the-badge&logo=Telegram&logoColor=FFFFFF)](https://t.me/anddeachat)
@@ -16,7 +16,7 @@
 </table>
 
 
-# Revancify Xisr Features
+# Revancify 𝕏isr Features
 1. Supports Pre-released patches
 2. Auto launches after updates
 
