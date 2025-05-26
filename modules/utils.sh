@@ -1,4 +1,6 @@
 #!/usr/bin/bash
+SRC="$HOME/Revancify"
+source "$SRC/.info"
 
 terminate() {
     killall -9 java &> /dev/null
@@ -21,8 +23,14 @@ setEnv() {
     fi
 }
 
+title='Revancify 𝕏isr'
+ver="${VERSION_STABLE:-unknown}"
+cols=$(tput cols)
+pad=$(( cols - ${#title} - ${#ver} )); [ $pad -lt 1 ] && pad=1
+backtitle="$title$(printf '%*s' "$pad")$ver"
+
 notify() {
-	  dialog --backtitle 'Revancify 𝕏isr' --"$1"box "$2" 12 45
+	  dialog --backtitle "$backtitle" --"$1"box "$2" 12 45
 }
 
 internet() {

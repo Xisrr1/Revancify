@@ -1,4 +1,6 @@
 #!/usr/bin/bash
+SRC="$HOME/Revancify"
+source "$SRC/.info"
 
 STORAGE="$HOME/storage/shared/Revancify"
 
@@ -7,7 +9,13 @@ DPI=$(getprop ro.sf.lcd_density)
 
 USER_AGENT="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
 
-DIALOG=(dialog --backtitle 'Revancify 𝕏isr' --no-shadow --begin 2 0)
+title='Revancify 𝕏isr'
+ver="${VERSION_STABLE:-unknown}"
+cols=$(tput cols)
+pad=$(( cols - ${#title} - ${#ver} )); [ $pad -lt 1 ] && pad=1
+backtitle="$title$(printf '%*s' "$pad")$ver"
+
+DIALOG=(dialog --backtitle "$backtitle" --no-shadow --begin 2 0)
 
 CURL=(curl -sL --fail-early --connect-timeout 2 --max-time 5 -H 'Cache-Control: no-cache')
 
