@@ -24,7 +24,7 @@ setEnv() {
 }
 
 title='Revancify 𝕏isr'
-ver="${VERSION_STABLE:-unknown}"
+ver="${VERSION:-unknown}"
 cols=$(tput cols)
 pad=$(( cols - ${#title} - ${#ver} )); [ $pad -lt 1 ] && pad=1
 backtitle="$title$(printf '%*s' "$pad")$ver"
