@@ -116,29 +116,17 @@ installDependencies() {
 }
 
 fetchSrc() {
-    [ -e "$SRC/.config" ] && source "$SRC/.config"
+    [ -e "$SRC/.info" ] && source "$SRC/.info"
 
-	  [ -e "$SRC/.info" ] && source "$SRC/.info"
-
-        if [ "$REVANCIFY_XISR_BETA" == "on" ]; then
-            CURRENT_VERSION="$VERSION_BETA"
-        else
-            CURRENT_VERSION="$VERSION_STABLE"
-        fi
-
-	  [ "$INTERNET_ACCESS" == false ] && return
+    [ "$INTERNET_ACCESS" == false ] && return
 
     ping -c 1 google.com &> /dev/null || return
 
     echo "Checking Latest Release..."
 
-if [ "$REVANCIFY_XISR_BETA" == "on" ]; then
-    TAG=$(curl -sL 'https://api.github.com/repos/Xisrr1/Revancify-Xisr/releases' 2>/dev/null | jq -r 'if type=="array" then .[0].tag_name else .tag_name end')
-else
-    TAG=$(curl -sL 'https://api.github.com/repos/Xisrr1/Revancify-Xisr/releases/latest' 2>/dev/null | jq -r '.tag_name')
-fi
+    TAG=$(curl -sL 'https://api.github.com/repos/Xisrr1/Revancify-Xisr/releases/latest' 2> /dev/null | jq -r '.tag_name')
 
-	  [ "$TAG" == "$CURRENT_VERSION" ] && return
+    [ "$TAG" == "$VERSION" ] && return
 
     echo "Revancify $TAG is available..."
 
@@ -155,6 +143,7 @@ fi
         rm -rf Revancify-* &> /dev/null
         cp -f "$SRC/revancify" "$PREFIX/bin/revancify"
         chmod +x "$PREFIX/bin/revancify"
+        echo -e "Revancify $TAG is now installed.\nRun 'revancify -h' for help."
     else
         echo -e "Unable to install Revancify $TAG !!\nPlease try again with proper Internet"
         exit 1
