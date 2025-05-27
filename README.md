@@ -16,9 +16,11 @@
 </table>
 
 
-# Revancify 𝕏isr Features
-1. Supports Pre-released patches
-2. Auto launches after updates
+# Revancify 𝕏isr Features & Roadmap
+- [x] Supports Pre-released patches
+- [x] Auto launches after updates
+- [ ] 'About' menu with technical info, changelogs and more
+- [ ] Ability to opt-in for pre-release Revancify 𝕏isr versions
 
 # Revancify Features
 1. Auto fetches Patches and CLI
