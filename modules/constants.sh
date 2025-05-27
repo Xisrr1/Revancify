@@ -12,7 +12,7 @@ USER_AGENT="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
 title='Revancify 𝕏isr'
 ver="${VERSION:-unknown}"
 cols=$(tput cols)
-pad=$(( cols - ${#title} - ${#ver} )); [ $pad -lt 1 ] && pad=1
+pad=$(( cols - ${#title} - ${#ver} )); [ $pad -lt 0 ] && pad=0
 backtitle="$title$(printf '%*s' "$pad")$ver"
 
 DIALOG=(dialog --backtitle "$backtitle" --no-shadow --begin 2 0)
