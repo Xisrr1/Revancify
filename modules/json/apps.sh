@@ -64,6 +64,5 @@ fetchAppsInfo() {
                 2> /dev/null
     else
         notify msg "API request failed for apkmirror.com.\nTry again later..."
-        return 1
     fi
 }
