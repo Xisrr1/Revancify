@@ -19,6 +19,7 @@
 # Revancify 𝕏isr Features & Roadmap
 - [x] Supports Pre-released patches
 - [x] Auto launches after updates
+- [x] Displays the current version information in the title bar
 - [ ] 'About' menu with technical info, changelogs and more
 - [ ] Ability to opt-in for pre-release Revancify 𝕏isr versions
 
