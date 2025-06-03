@@ -63,7 +63,9 @@ fetchAppsInfo() {
             ' > "assets/$SOURCE/Apps-$PATCHES_VERSION.json" \
                 2> /dev/null
     else
-        notify msg "API request failed for apkmirror.com.\nTry again later..."
+        if ! notify msg --extra-button --extra-label "Import" "API request failed for apkmirror.com.\nTry again later..."; then
+            TASK="IMPORT_APP"
+        fi
         return 1
     fi
 }
