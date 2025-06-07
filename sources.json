@@ -4,7 +4,7 @@
         "repository": "ReVanced/revanced-patches",
         "api": {
             "json": "https://api.revanced.app/v4/patches/list",
-            "version": "https://api.revanced.app/v4/patches/version"
+            "version": null
         }
     },
     {

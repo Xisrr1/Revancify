@@ -1,7 +1,7 @@
-# Revancify 🛠️
+# Revancify 𝕏isr 🛠️
 ### A TUI wrapper for Revanced CLI with amazing features.
 
-[![TelegramChannel](https://img.shields.io/badge/Telegram_Support_Chat-2CA5E0?style=for-the-badge&logo=Telegram&logoColor=FFFFFF)](https://t.me/decipher_projects)
+[![TelegramChannel](https://img.shields.io/badge/Telegram_Support_Chat-2CA5E0?style=for-the-badge&logo=Telegram&logoColor=FFFFFF)](https://t.me/anddeachat)
 
 ## Termux
 
@@ -16,7 +16,14 @@
 </table>
 
 
-# Features
+# Revancify 𝕏isr Features & Roadmap
+- [x] Supports Pre-released patches
+- [x] Auto launches after updates
+- [x] Displays the current version information in the title bar
+- [ ] 'About' menu with technical info, changelogs and more
+- [ ] Ability to opt-in for pre-release Revancify 𝕏isr versions
+
+# Revancify Features
 1. Auto fetches Patches and CLI
 2. Interactive and Easy to use
 3. Support APK download from ApkMirror or Importing from storage
@@ -31,7 +38,7 @@
 2. Open Termux.
 3. Copy and paste this command.
 ```
-curl -sL https://github.com/decipher3114/Revancify/raw/refs/heads/main/install.sh | bash
+curl -sL https://github.com/Xisrr1/Revancify-Xisr/raw/refs/heads/main/install.sh | bash
 ```
 
 ## Usage
