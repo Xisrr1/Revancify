@@ -1,6 +1,7 @@
 #!/usr/bin/bash
 
 SRC="$HOME/Revancify"
+[ -e "$SRC/.config" ] && source "$SRC/.config"
 
 HELP="revancify
 
@@ -17,6 +18,9 @@ while getopts ":furvh" OPT 2> /dev/null; do
     case $OPT in
         f)
             rm "$SRC/.info" &> /dev/null
+            if [ -e "$SRC/.config" ]; then
+                sed -i "s/^REVANCIFY_XISR_BETA=.*/REVANCIFY_XISR_BETA='off'/" "$SRC/.config"
+            fi
             ;;
         u)
             INTERNET_ACCESS=false
@@ -124,7 +128,19 @@ fetchSrc() {
 
     echo "Checking Latest Release..."
 
-    TAG=$(curl -sL 'https://api.github.com/repos/Xisrr1/Revancify-Xisr/releases/latest' 2> /dev/null | jq -r '.tag_name')
+    RELEASES_JSON=$(curl -sL 'https://api.github.com/repos/Xisrr1/Revancify-Xisr/releases')
+    STABLE_TAG=$(echo "$RELEASES_JSON" | jq -r '[.[] | select(.prerelease == false)][0].tag_name')
+    STABLE_DATE=$(echo "$RELEASES_JSON" | jq -r '[.[] | select(.prerelease == false)][0].published_at')
+
+    TAG="$STABLE_TAG"
+
+    if [ "$REVANCIFY_XISR_BETA" = "on" ]; then
+        PRE_TAG=$(echo "$RELEASES_JSON" | jq -r '[.[] | select(.prerelease == true)][0].tag_name')
+        PRE_DATE=$(echo "$RELEASES_JSON" | jq -r '[.[] | select(.prerelease == true)][0].published_at')
+        if [ -n "$PRE_TAG" ] && [ "$PRE_DATE" \> "$STABLE_DATE" ]; then
+            TAG="$PRE_TAG"
+        fi
+    fi
 
     [ "$TAG" == "$VERSION" ] && return
 
