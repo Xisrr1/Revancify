@@ -26,7 +26,7 @@ configure() {
     source .config
 
     if [ "$PREV_BETA" = "off" ] && [ "$REVANCIFY_XISR_BETA" = "on" ]; then
-        if ! "${DIALOG[@]}" --title "Enable Beta Updates?" --yes-label "Confirm" --no-label "Cancel" --yesno "Are you sure you want to enable beta updates? This will restart Revancify." -1 -1; then
+        if ! "${DIALOG[@]}" --title "Enable Beta Updates?" --yes-label "Confirm" --no-label "Cancel" --yesno "Are you sure you want to enable beta updates? This will restart Revancify." 12 45; then
             sed -i "s|^REVANCIFY_XISR_BETA=.*|REVANCIFY_XISR_BETA='off'|" .config
             source .config
             configure
