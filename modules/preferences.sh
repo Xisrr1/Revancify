@@ -32,7 +32,7 @@ configure() {
             configure
             return
         fi
-        exec "$0"
+        exec ./revancify
     fi
 
     [ "$LIGHT_THEME" == "on" ] && THEME="LIGHT" || THEME="DARK"
