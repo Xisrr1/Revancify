@@ -29,6 +29,7 @@ configure() {
         if ! "${DIALOG[@]}" --title "Enable Beta Updates?" --yes-label "Confirm" --no-label "Cancel" --yesno "Are you sure you want to enable beta updates? This will restart Revancify." -1 -1; then
             sed -i "s|^REVANCIFY_XISR_BETA=.*|REVANCIFY_XISR_BETA='off'|" .config
             source .config
+            configure
             return
         fi
         exec "$0"
