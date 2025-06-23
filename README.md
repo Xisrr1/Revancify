@@ -22,7 +22,7 @@
 - [x] Displays the current version information in the title bar
 - [x] Allows manually importing APKs if fetching app list fails
 - [ ] 'About' menu with technical info, changelogs and more
-- [ ] Ability to opt-in for pre-release Revancify 𝕏isr versions
+- [x] Ability to opt-in for pre-release Revancify 𝕏isr versions
 
 # Revancify Features
 1. Auto fetches Patches and CLI
