@@ -3,12 +3,12 @@
 SRC="$HOME/Revancify"
 [ -e "$SRC/.config" ] && source "$SRC/.config"
 
-HELP="revancify
+HELP="xisr
 
-Usage: revancify [OPTION]
+Usage: xisr [OPTION]
 
 Options:
--f:  Force re-install Revancify
+-f:  Force re-install Revancify 𝕏isr
 -u:  Disable Update Check
 -r:  Disable Root access
 -v:  Print current version
@@ -33,7 +33,7 @@ while getopts ":furvh" OPT 2> /dev/null; do
                 source "$SRC/.info"
                 echo "$VERSION"
             else
-                echo "Revancify not installed !!"
+                echo "Revancify 𝕏isr not installed !!"
             fi
             exit
             ;;
@@ -144,7 +144,7 @@ fetchSrc() {
 
     [ "$TAG" == "$VERSION" ] && return
 
-    echo "Revancify $TAG is available..."
+    echo "Revancify 𝕏isr $TAG is available..."
 
     echo "Installing..."
 
@@ -160,7 +160,7 @@ fetchSrc() {
         cp -f "$SRC/revancify" "$PREFIX/bin/revancify"
         chmod +x "$PREFIX/bin/revancify"
     else
-        echo -e "Unable to install Revancify $TAG !!\nPlease try again with proper Internet"
+        echo -e "Unable to install Revancify 𝕏isr $TAG !!\nPlease try again with proper Internet"
         exit 1
     fi
 }
