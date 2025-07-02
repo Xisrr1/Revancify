@@ -26,6 +26,11 @@ if [ -d "$OLD_STORAGE_DIR" ]; then
     fi
 fi
 
+if [ -f "$NEW_STORAGE_DIR/revancify.keystore" ]; then
+    echo "Renaming keystore..."
+    mv "$NEW_STORAGE_DIR/revancify.keystore" "$NEW_STORAGE_DIR/xisr.keystore"
+fi
+
 if [ -f "$NEW_SRC_DIR/xisr" ]; then
     echo "Installing 'xisr' command..."
     cp "$NEW_SRC_DIR/xisr" "$PREFIX/bin/xisr"
@@ -36,8 +41,9 @@ else
     chmod +x "$PREFIX/bin/xisr"
 fi
 
-echo "Removing old 'revancify' command..."
+echo "Cleaning up..."
 rm -f "$PREFIX/bin/revancify"
+rm -f "$NEW_SRC_DIR/revancify"
 
 echo "Migration complete! Launching Revancify 𝕏isr..."
 echo "Please use the 'xisr' command from now on."
