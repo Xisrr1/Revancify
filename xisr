@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-SRC="$HOME/Revancify"
+SRC="$HOME/Revancify 𝕏isr"
 [ -e "$SRC/.config" ] && source "$SRC/.config"
 
 HELP="xisr
@@ -152,13 +152,13 @@ fetchSrc() {
     if [ -e "$TAG.zip" ]; then
         unzip -qo "$TAG.zip"
         rm -rf "$TAG.zip"
-        for CONTENT in Revancify-*/* Revancify-*/.*; do
+        for CONTENT in Revancify-𝕏isr-*/* Revancify-𝕏isr-*/.*; do
             rm -rf "${SRC:?}/$(basename "$CONTENT")"
             mv "$CONTENT" "$SRC/"
         done
-        rm -rf Revancify-* &> /dev/null
-        cp -f "$SRC/revancify" "$PREFIX/bin/revancify"
-        chmod +x "$PREFIX/bin/revancify"
+        rm -rf Revancify-𝕏isr-* &> /dev/null
+        cp -f "$SRC/xisr" "$PREFIX/bin/xisr"
+        chmod +x "$PREFIX/bin/xisr"
     else
         echo -e "Unable to install Revancify 𝕏isr $TAG !!\nPlease try again with proper Internet"
         exit 1
