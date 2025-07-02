@@ -43,9 +43,9 @@ curl -sL https://github.com/Xisrr1/Revancify-Xisr/raw/refs/heads/main/install.sh
 ```
 
 ## Usage
-After installation, type `revancify` in termux and press enter.  
+After installation, type `xisr` in termux and press enter.  
 
-Or use with arguments. Check them with `revancify -h`
+Or use with arguments. Check them with `xisr -h`
 
 # Thanks & Credits
 [Revanced](https://github.com/revanced)  
