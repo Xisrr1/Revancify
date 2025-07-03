@@ -1,15 +1,5 @@
 #!/usr/bin/bash
 
-SPACE_SRC_DIR="$HOME/Revancify 𝕏isr"
-if [ -d "$SPACE_SRC_DIR" ]; then
-    echo "Migrating to new directory structure..."
-    mv "$HOME/Revancify 𝕏isr" "$HOME/Revancify-Xisr"
-    if [ -d "$HOME/storage/shared/Revancify 𝕏isr" ]; then
-        mv "$HOME/storage/shared/Revancify 𝕏isr" "$HOME/storage/shared/Revancify-Xisr"
-    fi
-    echo "Migration complete."
-fi
-
 SRC="$HOME/Revancify-Xisr"
 [ -e "$SRC/.config" ] && source "$SRC/.config"
 
@@ -18,7 +8,7 @@ HELP="xisr
 Usage: xisr [OPTION]
 
 Options:
--f:  Force re-install Revancify 𝕏isr
+-f:  Force re-install Revancify Xisr
 -u:  Disable Update Check
 -r:  Disable Root access
 -v:  Print current version
@@ -43,7 +33,7 @@ while getopts ":furvh" OPT 2> /dev/null; do
                 source "$SRC/.info"
                 echo "$VERSION"
             else
-                echo "Revancify 𝕏isr not installed !!"
+                echo "Revancify Xisr not installed !!"
             fi
             exit
             ;;
@@ -154,7 +144,7 @@ fetchSrc() {
 
     [ "$TAG" == "$VERSION" ] && return
 
-    echo "Revancify 𝕏isr $TAG is available..."
+    echo "Revancify Xisr $TAG is available..."
 
     echo "Installing..."
 
@@ -162,15 +152,15 @@ fetchSrc() {
     if [ -e "$TAG.zip" ]; then
         unzip -qo "$TAG.zip"
         rm -rf "$TAG.zip"
-        for CONTENT in Revancify-𝕏isr-*/* Revancify-𝕏isr-*/.*; do
+        for CONTENT in Revancify-Xisr-*/* Revancify-Xisr-*/.*; do
             rm -rf "${SRC:?}/$(basename "$CONTENT")"
             mv "$CONTENT" "$SRC/"
         done
-        rm -rf Revancify-𝕏isr-* &> /dev/null
+        rm -rf Revancify-Xisr-* &> /dev/null
         cp -f "$SRC/xisr" "$PREFIX/bin/xisr"
         chmod +x "$PREFIX/bin/xisr"
     else
-        echo -e "Unable to install Revancify 𝕏isr $TAG !!\nPlease try again with proper Internet"
+        echo -e "Unable to install Revancify Xisr $TAG !!\nPlease try again with proper Internet"
         exit 1
     fi
 }

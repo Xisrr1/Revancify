@@ -25,7 +25,7 @@ setEnv() {
 }
 
 notify() {
-    dialog --backtitle "Revancify 𝕏isr ${VERSION}" --"$1"box "$2" 12 45
+    dialog --backtitle "Revancify Xisr ${VERSION}" --"$1"box "$2" 12 45
 }
 
 internet() {

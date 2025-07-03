@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-echo "Performing one-time migration to Revancify 𝕏isr..."
+echo "Performing one-time migration to Revancify Xisr..."
 
 OLD_SRC_DIR="$HOME/Revancify"
 NEW_SRC_DIR="$HOME/Revancify-Xisr"
@@ -45,7 +45,7 @@ echo "Cleaning up..."
 rm -f "$PREFIX/bin/revancify"
 rm -f "$NEW_SRC_DIR/revancify"
 
-echo "Migration complete! Launching Revancify 𝕏isr..."
+echo "Migration complete! Launching Revancify Xisr..."
 echo "Please use the 'xisr' command from now on."
 
 exec "$PREFIX/bin/xisr" "$@"
