@@ -1,188 +1,51 @@
 #!/usr/bin/bash
 
-SRC="$HOME/Revancify"
-[ -e "$SRC/.config" ] && source "$SRC/.config"
+echo "Performing one-time migration to Revancify Xisr..."
 
-HELP="revancify
+OLD_SRC_DIR="$HOME/Revancify"
+NEW_SRC_DIR="$HOME/Revancify-Xisr"
+OLD_STORAGE_DIR="$HOME/storage/shared/Revancify"
+NEW_STORAGE_DIR="$HOME/storage/shared/Revancify-Xisr"
 
-Usage: revancify [OPTION]
-
-Options:
--f:  Force re-install Revancify
--u:  Disable Update Check
--r:  Disable Root access
--v:  Print current version
--h:  Print help statement"
-
-while getopts ":furvh" OPT 2> /dev/null; do
-    case $OPT in
-        f)
-            rm "$SRC/.info" &> /dev/null
-            if [ -e "$SRC/.config" ]; then
-                sed -i "s/^REVANCIFY_XISR_BETA=.*/REVANCIFY_XISR_BETA='off'/" "$SRC/.config"
-            fi
-            ;;
-        u)
-            INTERNET_ACCESS=false
-            ;;
-        r)
-            ROOT_ACCESS=false
-            ;;
-        v)
-            if [ -e "$SRC" ]; then
-                source "$SRC/.info"
-                echo "$VERSION"
-            else
-                echo "Revancify not installed !!"
-            fi
-            exit
-            ;;
-        h)
-            echo -e "$HELP"
-            exit
-            ;;
-        ?)
-            echo -e "Invalid option specified: -${OPTARG}"
-            echo -e "$HELP"
-            exit 1
-            ;;
-    esac
-done
-
-terminate() {
-    killall -9 curl &> /dev/null
-    killall -9 wget &> /dev/null
-    clear
-    echo "Script terminated !!"
-    exit 1
-}
-trap terminate SIGTERM SIGINT SIGABRT
-
-installDependencies() {
-    local BINS BIN CTR RESPONSE
-    echo "Checking dependencies..."
-
-    [ -e "$HOME/storage" ] || termux-setup-storage
-
-    BINS=$(ls "$PREFIX/bin")
-    grep -q java <<< "$BINS" || PKGS+=("openjdk-21")
-    grep -q wget <<< "$BINS" || PKGS+=("wget")
-    grep -q tput <<< "$BINS" || PKGS+=("ncurses-utils")
-    grep -q dialog <<< "$BINS" || PKGS+=("dialog")
-    grep -q pup <<< "$BINS" || PKGS+=("pup")
-    grep -q jq <<< "$BINS" || PKGS+=("jq")
-    grep -q unzip <<< "$BINS" || PKGS+=("unzip")
-
-    if [ "${#PKGS[@]}" -ne 0 ]; then
-        pkg update || return 1
-        yes | pkg install "${PKGS[@]}" || return 1
-    fi
-
-    sed -i '/allow-external-apps/s/# //' "$HOME/.termux/termux.properties"
-
-    [ -e "$SRC/bin" ] || mkdir -p "$SRC/bin"
-
-    AAPT2="$SRC/bin/aapt2"
-    APK_EDITOR="$SRC/bin/APKEditor.jar"
-
-    CTR=0 && while [ ! -e "$AAPT2" ]; do
-        [ $CTR -gt 2 ] && return 1
-        echo -e "\nDownloading aapt2...\n"
-        readarray -t RESPONSE < <(curl -s "https://api.github.com/repos/decipher3114/binaries/releases/latest" | jq -r --arg ARCH "$(getprop ro.product.cpu.abi)" '.assets[] | if (.name | test($ARCH)) then (.browser_download_url, .size) else empty end' 2> /dev/null)
-        [ "${#RESPONSE[@]}" -eq 0 ] && return 1
-        wget -q --show-progress "${RESPONSE[0]}" -O "$AAPT2"
-        chmod +x "$AAPT2"
-        if [ "${RESPONSE[1]}" == "$(stat -c %s "$AAPT2" 2> /dev/null)" ]; then
-            break
-        else
-            rm "$AAPT2"
-        fi
-        ((CTR++))
-    done
-
-    CTR=0 && while [ ! -e "$APK_EDITOR" ]; do
-        [ $CTR -gt 2 ] && return 1
-        echo -e "\nDownloading APKEditor...\n"
-        readarray -t RESPONSE < <(curl -s "https://api.github.com/repos/REAndroid/APKEditor/releases/latest" | jq -r '.assets[0] | .browser_download_url, .size' 2> /dev/null)
-        [ "${#RESPONSE[@]}" -eq 0 ] && return 1
-        wget -q --show-progress "${RESPONSE[0]}" -O "$APK_EDITOR"
-        if [ "${RESPONSE[1]}" == "$(stat -c %s "$APK_EDITOR" 2> /dev/null)" ]; then
-            break
-        else
-            rm "$APK_EDITOR"
-            yes | pkg uninstall -y openjdk-21
-            yes | pkg install openjdk-17
-        fi
-        ((CTR++))
-    done
-
-    return 0
-}
-
-fetchSrc() {
-    [ -e "$SRC/.info" ] && source "$SRC/.info"
-
-    [ "$INTERNET_ACCESS" == false ] && return
-
-    ping -c 1 google.com &> /dev/null || return
-
-    echo "Checking Latest Release..."
-
-    RELEASES_JSON=$(curl -sL 'https://api.github.com/repos/Xisrr1/Revancify-Xisr/releases')
-    STABLE_TAG=$(echo "$RELEASES_JSON" | jq -r '[.[] | select(.prerelease == false)][0].tag_name')
-    STABLE_DATE=$(echo "$RELEASES_JSON" | jq -r '[.[] | select(.prerelease == false)][0].published_at')
-
-    TAG="$STABLE_TAG"
-
-    if [ "$REVANCIFY_XISR_BETA" = "on" ]; then
-        PRE_TAG=$(echo "$RELEASES_JSON" | jq -r '[.[] | select(.prerelease == true)][0].tag_name')
-        PRE_DATE=$(echo "$RELEASES_JSON" | jq -r '[.[] | select(.prerelease == true)][0].published_at')
-        if [ -n "$PRE_TAG" ] && [ "$PRE_DATE" \> "$STABLE_DATE" ]; then
-            TAG="$PRE_TAG"
-        fi
-    fi
-
-    [ "$TAG" == "$VERSION" ] && return
-
-    echo "Revancify $TAG is available..."
-
-    echo "Installing..."
-
-    wget -qc "https://github.com/Xisrr1/Revancify-Xisr/archive/refs/tags/$TAG.zip" -O "$TAG.zip"
-    if [ -e "$TAG.zip" ]; then
-        unzip -qo "$TAG.zip"
-        rm -rf "$TAG.zip"
-        for CONTENT in Revancify-*/* Revancify-*/.*; do
-            rm -rf "${SRC:?}/$(basename "$CONTENT")"
-            mv "$CONTENT" "$SRC/"
-        done
-        rm -rf Revancify-* &> /dev/null
-        cp -f "$SRC/revancify" "$PREFIX/bin/revancify"
-        chmod +x "$PREFIX/bin/revancify"
+if [ -d "$OLD_SRC_DIR" ]; then
+    echo "Migrating source directory..."
+    if [ -d "$NEW_SRC_DIR" ]; then
+        cp -rT "$OLD_SRC_DIR" "$NEW_SRC_DIR" && rm -rf "$OLD_SRC_DIR"
     else
-        echo -e "Unable to install Revancify $TAG !!\nPlease try again with proper Internet"
-        exit 1
+        mv "$OLD_SRC_DIR" "$NEW_SRC_DIR"
     fi
-}
-
-clear
-
-if ! installDependencies; then
-    echo -e "Dependencies not installed !!\nRun again with stable internet connection."
-    exit 1
 fi
 
-fetchSrc
+if [ -d "$OLD_STORAGE_DIR" ]; then
+    echo "Migrating storage directory..."
+    mkdir -p "$HOME/storage/shared"
+    if [ -d "$NEW_STORAGE_DIR" ]; then
+        cp -rT "$OLD_STORAGE_DIR" "$NEW_STORAGE_DIR" && rm -rf "$OLD_STORAGE_DIR"
+    else
+        mv "$OLD_STORAGE_DIR" "$NEW_STORAGE_DIR"
+    fi
+fi
 
-if [ "$ROOT_ACCESS" != false ] && su -c 'exit' &> /dev/null; then
-    ROOT_ACCESS=true
+if [ -f "$NEW_STORAGE_DIR/revancify.keystore" ]; then
+    echo "Renaming keystore..."
+    mv "$NEW_STORAGE_DIR/revancify.keystore" "$NEW_STORAGE_DIR/xisr.keystore"
+fi
+
+if [ -f "$NEW_SRC_DIR/xisr" ]; then
+    echo "Installing 'xisr' command..."
+    cp "$NEW_SRC_DIR/xisr" "$PREFIX/bin/xisr"
+    chmod +x "$PREFIX/bin/xisr"
 else
-    ROOT_ACCESS=false
+    echo "'xisr' script not found locally, downloading fresh copy..."
+    curl -sL "https://github.com/Xisrr1/Revancify-Xisr/raw/refs/heads/main/xisr" -o "$PREFIX/bin/xisr"
+    chmod +x "$PREFIX/bin/xisr"
 fi
 
-cd "$SRC" &> /dev/null || terminate
+echo "Cleaning up..."
+rm -f "$PREFIX/bin/revancify"
+rm -f "$NEW_SRC_DIR/revancify"
 
-bash main.sh "$ROOT_ACCESS"
-EXIT_CODE=$?
+echo "Migration complete! Launching Revancify Xisr..."
+echo "Please use the 'xisr' command from now on."
 
-exit "$EXIT_CODE"
+exec "$PREFIX/bin/xisr" "$@"
