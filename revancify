@@ -3,9 +3,9 @@
 echo "Performing one-time migration to Revancify 𝕏isr..."
 
 OLD_SRC_DIR="$HOME/Revancify"
-NEW_SRC_DIR="$HOME/Revancify 𝕏isr"
+NEW_SRC_DIR="$HOME/Revancify-Xisr"
 OLD_STORAGE_DIR="$HOME/storage/shared/Revancify"
-NEW_STORAGE_DIR="$HOME/storage/shared/Revancify 𝕏isr"
+NEW_STORAGE_DIR="$HOME/storage/shared/Revancify-Xisr"
 
 if [ -d "$OLD_SRC_DIR" ]; then
     echo "Migrating source directory..."

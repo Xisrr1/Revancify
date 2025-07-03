@@ -6,10 +6,10 @@ APP_VER="$3"
 SOURCE="$4"
 
 log() {
-    echo "- $1" >> "/storage/emulated/0/Revancify 𝕏isr/mount_log.txt"
+    echo "- $1" >> "/storage/emulated/0/Revancify-Xisr/mount_log.txt"
 }
 
-rm "/storage/emulated/0/Revancify 𝕏isr/mount_log.txt"
+rm "/storage/emulated/0/Revancify-Xisr/mount_log.txt"
 
 log "START"
 

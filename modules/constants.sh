@@ -1,9 +1,9 @@
 #!/usr/bin/bash
 
-SRC="$HOME/Revancify 𝕏isr"
+SRC="$HOME/Revancify-Xisr"
 source "$SRC/.info"
 
-STORAGE="$HOME/storage/shared/Revancify 𝕏isr"
+STORAGE="$HOME/storage/shared/Revancify-Xisr"
 
 ARCH=$(getprop ro.product.cpu.abi)
 DPI=$(getprop ro.sf.lcd_density)

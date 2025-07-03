@@ -1,6 +1,16 @@
 #!/usr/bin/bash
 
-SRC="$HOME/Revancify 𝕏isr"
+SPACE_SRC_DIR="$HOME/Revancify 𝕏isr"
+if [ -d "$SPACE_SRC_DIR" ]; then
+    echo "Migrating to new directory structure..."
+    mv "$HOME/Revancify 𝕏isr" "$HOME/Revancify-Xisr"
+    if [ -d "$HOME/storage/shared/Revancify 𝕏isr" ]; then
+        mv "$HOME/storage/shared/Revancify 𝕏isr" "$HOME/storage/shared/Revancify-Xisr"
+    fi
+    echo "Migration complete."
+fi
+
+SRC="$HOME/Revancify-Xisr"
 [ -e "$SRC/.config" ] && source "$SRC/.config"
 
 HELP="xisr
@@ -152,11 +162,11 @@ fetchSrc() {
     if [ -e "$TAG.zip" ]; then
         unzip -qo "$TAG.zip"
         rm -rf "$TAG.zip"
-        for CONTENT in Revancify-𝕏isr-*/* Revancify-𝕏isr-*/.*; do
+        for CONTENT in Revancify-Xisr-*/* Revancify-Xisr-*/.*; do
             rm -rf "${SRC:?}/$(basename "$CONTENT")"
             mv "$CONTENT" "$SRC/"
         done
-        rm -rf Revancify-𝕏isr-* &> /dev/null
+        rm -rf Revancify-Xisr-* &> /dev/null
         cp -f "$SRC/xisr" "$PREFIX/bin/xisr"
         chmod +x "$PREFIX/bin/xisr"
     else

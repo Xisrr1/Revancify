@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-SRC="$HOME/Revancify 𝕏isr"
+SRC="$HOME/Revancify-Xisr"
 source "$SRC/.info"
 
 terminate() {
