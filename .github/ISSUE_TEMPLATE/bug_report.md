@@ -3,7 +3,7 @@ name: Bug report
 about: Detailed information about the bug encountered
 title: "[BUG]"
 labels: ''
-assignees: decipher3114
+assignees: Xisrr1
 
 ---
 
@@ -26,4 +26,4 @@ Upload a Screenshot or Recording displaying the bug
 **Smartphone (please complete the following information):**
  - Device: [e.g. iPhone6]
  - Android Version: [e.g. iOS8.1]
- - Revancify Version: [e.g. 22]
+ - Revancify Xisr Version: [e.g. 22]
