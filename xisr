@@ -162,11 +162,11 @@ fetchSrc() {
     if [ -e "$TAG.zip" ]; then
         unzip -qo "$TAG.zip"
         rm -rf "$TAG.zip"
-        for CONTENT in Revancify-Xisr-*/* Revancify-Xisr-*/.*; do
+        for CONTENT in Revancify-𝕏isr-*/* Revancify-𝕏isr-*/.*; do
             rm -rf "${SRC:?}/$(basename "$CONTENT")"
             mv "$CONTENT" "$SRC/"
         done
-        rm -rf Revancify-Xisr-* &> /dev/null
+        rm -rf Revancify-𝕏isr-* &> /dev/null
         cp -f "$SRC/xisr" "$PREFIX/bin/xisr"
         chmod +x "$PREFIX/bin/xisr"
     else
