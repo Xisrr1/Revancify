@@ -1,5 +1,8 @@
 #!/usr/bin/bash
 
+SRC="$HOME/Revancify-Xisr"
+source "$SRC/.info"
+
 terminate() {
     killall -9 java &> /dev/null
     killall -9 dialog &> /dev/null
@@ -22,7 +25,7 @@ setEnv() {
 }
 
 notify() {
-    dialog --backtitle 'Revancify' --"$1"box "$2" 12 45
+    dialog --backtitle "Revancify Xisr ${VERSION}" --"$1"box "$2" 12 45
 }
 
 internet() {

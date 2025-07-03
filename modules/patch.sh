@@ -69,7 +69,7 @@ patchApp() {
         --out="apps/$APP_NAME/$APP_VER-$SOURCE.apk" \
         "${ARGUMENTS[@]}" \
         --custom-aapt2-binary="./bin/aapt2" \
-        --keystore="$STORAGE/revancify.keystore" \
+        --keystore="$STORAGE/xisr.keystore" \
         "apps/$APP_NAME/$APP_VER.apk" |&
         tee -a "$STORAGE/patch_log.txt" |
         "${DIALOG[@]}" \
